@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graduation Gift 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush: #f9c4c4;
+    --rose: #e8637a;
+    --deep-rose: #c0395a;
+    --petal: #fde8ec;
+    --cream: #fff9f5;
+    --gold: #d4a843;
+    --leaf: #6a9e6a;
+    --dark-leaf: #3d6b3d;
+    --text: #3a2030;
+    --soft: #f5c6d8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Lora', serif;
+    color: var(--text);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== SPLASH SCREEN ===== */
+  #splash {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: radial-gradient(ellipse at 50% 60%, #ffe0ec 0%, #fbc9d8 40%, #f9a8bf 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  #splash.fade-out {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+
+  .splash-petals {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .splash-petal {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatPetal linear infinite;
+    opacity: 0.6;
+  }
+
+  @keyframes floatPetal {
+    0% { transform: translateY(-10%) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  .splash-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--deep-rose);
+    text-shadow: 0 2px 20px rgba(192,57,90,0.3);
+    animation: pulseIn 1.5s ease forwards;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  .splash-sub {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--rose);
+    margin-top: 1rem;
+    animation: pulseIn 1.5s 0.3s ease both;
+    opacity: 0;
+  }
+  .splash-hint {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+    color: var(--deep-rose);
+    opacity: 0.7;
+    animation: blink 1.8s ease infinite, pulseIn 1.5s 0.6s both;
+    letter-spacing: 0.05em;
+  }
+  @keyframes blink {
+    0%,100% { opacity: 0.4; } 50% { opacity: 1; }
+  }
+  @keyframes pulseIn {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .splash-heart {
+    font-size: 3rem;
+    animation: heartbeat 1.2s ease infinite;
+    margin-bottom: 1rem;
+  }
+  @keyframes heartbeat {
+    0%,100% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.2); }
+    70% { transform: scale(1); }
+  }
+
+  /* ===== MAIN PAGE ===== */
+  #main {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  #main.visible {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 3rem 1.5rem 1.5rem;
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--rose), var(--gold), var(--rose), transparent);
+  }
+  .header-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.2rem, 7vw, 4.5rem);
+    color: var(--deep-rose);
+    line-height: 1.2;
+  }
+  .header-sub {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    color: var(--rose);
+    font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+    margin-top: 0.5rem;
+    opacity: 0.85;
+  }
+
+  /* ===== BOUQUET SECTION ===== */
+  .bouquet-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 2rem 1rem 1rem;
+    position: relative;
+    min-height: 420px;
+  }
+
+  /* SVG Bouquet */
+  .bouquet-wrap {
+    position: relative;
+    display: inline-block;
+    animation: bouquetEntrance 1.2s cubic-bezier(0.34,1.56,0.64,1) both;
+    animation-delay: 0.4s;
+  }
+  @keyframes bouquetEntrance {
+    0% { transform: translateY(80px) scale(0.6); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  .bouquet-wrap:hover { animation: wobble 0.5s ease; }
+  @keyframes wobble {
+    0%,100% { transform: rotate(0deg); }
+    25% { transform: rotate(-3deg); }
+    75% { transform: rotate(3deg); }
+  }
+
+  svg.bouquet { width: min(380px, 90vw); height: auto; filter: drop-shadow(0 20px 40px rgba(200,80,120,0.25)); }
+
+  /* Petals floating from bouquet */
+  .petal-burst {
+    position: absolute;
+    pointer-events: none;
+  }
+  .float-petal {
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: burstFloat 3s ease-out infinite;
+  }
+  @keyframes burstFloat {
+    0% { transform: translate(0,0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--dx), var(--dy)) rotate(360deg); opacity: 0; }
+  }
+
+  /* ===== NOTES SECTION ===== */
+  .notes-section {
+    padding: 2rem 1.5rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .notes-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: var(--deep-rose);
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .notes-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blush), var(--rose), var(--blush));
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+  }
+
+  /* Note cards */
+  .note-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem 2rem 1.8rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 30px rgba(200, 80, 120, 0.1), 0 1px 4px rgba(0,0,0,0.05);
+    border: 1.5px solid rgba(248,180,200,0.4);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(40px);
+    opacity: 0;
+    transition: transform 0.7s cubic-bezier(0.34,1.56,0.64,1), opacity 0.6s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .note-card.visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .note-card:hover {
+    box-shadow: 0 10px 50px rgba(200, 80, 120, 0.2), 0 2px 8px rgba(0,0,0,0.07);
+    transform: translateY(-4px);
+  }
+  .note-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blush), var(--rose), var(--gold));
+  }
+
+  .note-number {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.5rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: var(--blush);
+    line-height: 1;
+    user-select: none;
+  }
+
+  .note-emoji {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: block;
+    animation: emojiPop 0.4s ease;
+  }
+
+  .note-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1rem, 2.5vw, 1.15rem);
+    line-height: 1.75;
+    color: var(--text);
+    position: relative;
+    z-index: 1;
+  }
+
+  .note-decoration {
+    position: absolute;
+    bottom: -10px;
+    left: -10px;
+    font-size: 4rem;
+    opacity: 0.06;
+    transform: rotate(-20deg);
+    user-select: none;
+  }
+
+  /* ===== HEART CLICK EFFECT ===== */
+  .heart-pop {
+    position: fixed;
+    pointer-events: none;
+    font-size: 1.5rem;
+    z-index: 9999;
+    animation: heartPop 1s ease forwards;
+  }
+  @keyframes heartPop {
+    0% { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+    60% { transform: translate(-50%, calc(-50% - 40px)) scale(1.3); opacity: 1; }
+    100% { transform: translate(-50%, calc(-50% - 80px)) scale(0.5); opacity: 0; }
+  }
+
+  /* ===== CLOSING SECTION ===== */
+  .closing {
+    text-align: center;
+    padding: 2rem 1.5rem 5rem;
+    background: linear-gradient(180deg, transparent, #fff0f5 40%, #fce8f0);
+  }
+  .closing-heart {
+    font-size: 3rem;
+    display: block;
+    animation: heartbeat 1.2s ease infinite;
+    margin-bottom: 1rem;
+  }
+  .closing-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    color: var(--deep-rose);
+    line-height: 1.4;
+  }
+  .closing-sub {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    color: var(--rose);
+    margin-top: 0.5rem;
+    font-size: 1rem;
+  }
+
+  /* ===== FLOATING BACKGROUND ELEMENTS ===== */
+  .bg-floaters {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .bg-float {
+    position: absolute;
+    font-size: 1.4rem;
+    opacity: 0.12;
+    animation: bgDrift linear infinite;
+  }
+  @keyframes bgDrift {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-10vh) rotate(360deg); }
+  }
+
+  /* ===== RIBBON ===== */
+  .ribbon {
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--rose), var(--deep-rose));
+    color: white;
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    letter-spacing: 0.05em;
+    position: relative;
+    overflow: hidden;
+  }
+  .ribbon::before {
+    content: '🌸 ✨ 🌸 ✨ 🌸 ✨ 🌸 ✨ 🌸 ✨ 🌸 ✨ 🌸 ✨ 🌸 ✨ 🌸';
+    display: block;
+    font-size: 0.8rem;
+    opacity: 0.4;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.3rem;
+  }
+
+  /* ===== SPARKLE CURSOR ===== */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    font-size: 1rem;
+    animation: sparkleFade 0.8s ease forwards;
+  }
+  @keyframes sparkleFade {
+    0% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+    100% { transform: translate(-50%,-50%) scale(0); opacity: 0; }
+  }
+
+  /* responsive */
+  @media (max-width: 600px) {
+    .note-card { padding: 1.5rem 1.3rem 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background floaters -->
+<div class="bg-floaters" id="bgFloaters"></div>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-petals" id="splashPetals"></div>
+  <div class="splash-heart">💝</div>
+  <div class="splash-title">A Gift for You!</div>
+  <div class="splash-sub">A little something from the heart 🌸</div>
+  <div class="splash-hint"><h2>Tap anywhere to open your gift</h2></div>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="main">
+  <!-- <div class="ribbon">Congratulations, Luv!</div> -->
+
+  <div class="header">
+    <div class="header-title">Congratulations, Luv! 🌸</div>
+    <div class="header-sub"><h2>Scroll down to view more</h2></div>
+  </div>
+
+  <!-- BOUQUET -->
+  <div class="bouquet-section">
+    <div class="bouquet-wrap" id="bouquetWrap" title="Click me! 🌸">
+      <!-- SVG Bouquet -->
+      <svg class="bouquet" viewBox="0 0 380 440" xmlns="http://www.w3.org/2000/svg">
+        <!-- === WRAP / RIBBON === -->
+        <!-- Wrapper paper -->
+        <polygon points="80,320 300,320 320,430 60,430" fill="#f9e0ea" stroke="#e8a0bb" stroke-width="1.5"/>
+        <polygon points="90,320 290,320 305,415 75,415" fill="#fdeef4"/>
+        <!-- Ribbon knot -->
+        <ellipse cx="190" cy="320" rx="30" ry="12" fill="#e8637a"/>
+        <path d="M160,320 Q140,300 150,290 Q160,280 190,300 Q190,310 190,320" fill="#e8637a" opacity="0.9"/>
+        <path d="M220,320 Q240,300 230,290 Q220,280 190,300 Q190,310 190,320" fill="#c0395a" opacity="0.9"/>
+        <circle cx="190" cy="318" r="9" fill="#d4a843"/>
+        <!-- Wrap stripes -->
+        <line x1="120" y1="320" x2="100" y2="430" stroke="#e8a0bb" stroke-width="1" opacity="0.5"/>
+        <line x1="160" y1="320" x2="145" y2="430" stroke="#e8a0bb" stroke-width="1" opacity="0.5"/>
+        <line x1="200" y1="320" x2="192" y2="430" stroke="#e8a0bb" stroke-width="1" opacity="0.5"/>
+        <line x1="240" y1="320" x2="238" y2="430" stroke="#e8a0bb" stroke-width="1" opacity="0.5"/>
+        <line x1="275" y1="320" x2="280" y2="430" stroke="#e8a0bb" stroke-width="1" opacity="0.5"/>
+
+        <!-- === STEMS & LEAVES === -->
+        <!-- Main stems -->
+        <path d="M150,320 Q145,270 130,220" stroke="#5a8a5a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M175,320 Q172,260 165,200" stroke="#6a9e6a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M190,320 Q190,255 190,190" stroke="#5a8a5a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M205,320 Q208,260 215,200" stroke="#6a9e6a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <path d="M225,320 Q230,270 248,225" stroke="#5a8a5a" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- Side stems -->
+        <path d="M140,320 Q130,260 105,210" stroke="#6a9e6a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M238,320 Q250,260 270,215" stroke="#6a9e6a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+
+        <!-- Leaves -->
+        <path d="M135,250 Q115,235 118,218 Q138,230 135,250Z" fill="#6a9e6a"/>
+        <path d="M165,240 Q148,225 152,208 Q170,222 165,240Z" fill="#7ab87a"/>
+        <path d="M215,238 Q232,222 228,205 Q210,220 215,238Z" fill="#6a9e6a"/>
+        <path d="M245,255 Q262,238 258,220 Q240,235 245,255Z" fill="#7ab87a"/>
+        <path d="M115,250 Q98,240 100,222 Q118,232 115,250Z" fill="#5a8a5a"/>
+        <path d="M265,248 Q280,235 277,218 Q260,228 265,248Z" fill="#5a8a5a"/>
+
+        <!-- Baby's breath sprigs -->
+        <circle cx="120" cy="195" r="4" fill="white" opacity="0.9"/>
+        <circle cx="112" cy="188" r="3" fill="white" opacity="0.8"/>
+        <circle cx="128" cy="186" r="3.5" fill="white" opacity="0.85"/>
+        <circle cx="268" cy="198" r="4" fill="white" opacity="0.9"/>
+        <circle cx="276" cy="190" r="3" fill="white" opacity="0.8"/>
+        <circle cx="260" cy="189" r="3.5" fill="white" opacity="0.85"/>
+        <circle cx="160" cy="182" r="3" fill="white" opacity="0.8"/>
+        <circle cx="220" cy="182" r="3" fill="white" opacity="0.8"/>
+
+        <!-- === FLOWERS === -->
+        <!-- Helper: rose macro -->
+        <!-- Center large rose (pink) -->
+        <g transform="translate(190,155)">
+          <circle r="28" fill="#f9a8bf" opacity="0.3"/>
+          <ellipse rx="22" ry="18" fill="#f9a8bf"/>
+          <ellipse rx="16" ry="13" ry="13" fill="#f48fb1"/>
+          <ellipse rx="10" ry="8" fill="#e8637a"/>
+          <circle r="5" fill="#c0395a"/>
+          <!-- Petals -->
+          <ellipse cx="0" cy="-22" rx="10" ry="13" fill="#f9a8bf" opacity="0.85" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-22" rx="10" ry="13" fill="#f9a8bf" opacity="0.85" transform="rotate(45)"/>
+          <ellipse cx="0" cy="-22" rx="10" ry="13" fill="#f9a8bf" opacity="0.85" transform="rotate(90)"/>
+          <ellipse cx="0" cy="-22" rx="10" ry="13" fill="#f48fb1" opacity="0.85" transform="rotate(135)"/>
+          <ellipse cx="0" cy="-22" rx="10" ry="13" fill="#f48fb1" opacity="0.85" transform="rotate(180)"/>
+          <ellipse cx="0" cy="-22" rx="10" ry="13" fill="#f9a8bf" opacity="0.85" transform="rotate(225)"/>
+          <ellipse cx="0" cy="-22" rx="10" ry="13" fill="#f9a8bf" opacity="0.85" transform="rotate(270)"/>
+          <ellipse cx="0" cy="-22" rx="10" ry="13" fill="#f48fb1" opacity="0.85" transform="rotate(315)"/>
+          <ellipse rx="14" ry="11" fill="#f48fb1" opacity="0.7"/>
+          <circle r="7" fill="#e8637a"/>
+          <circle r="4" fill="#c0395a"/>
+          <circle r="2" fill="#d4a843"/>
+        </g>
+
+        <!-- Left rose (deep pink) -->
+        <g transform="translate(138,175)">
+          <ellipse rx="18" ry="14" fill="#e8637a" opacity="0.3"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#e8637a" opacity="0.8" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#e8637a" opacity="0.8" transform="rotate(60)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#e8637a" opacity="0.8" transform="rotate(120)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#c0395a" opacity="0.8" transform="rotate(180)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#c0395a" opacity="0.8" transform="rotate(240)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#e8637a" opacity="0.8" transform="rotate(300)"/>
+          <ellipse rx="11" ry="9" fill="#c0395a"/>
+          <circle r="5" fill="#9c2545"/>
+          <circle r="2.5" fill="#d4a843"/>
+        </g>
+
+        <!-- Right rose (soft pink) -->
+        <g transform="translate(243,178)">
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#fbc9d8" opacity="0.85" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#fbc9d8" opacity="0.85" transform="rotate(60)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#fbc9d8" opacity="0.85" transform="rotate(120)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#f48fb1" opacity="0.85" transform="rotate(180)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#f48fb1" opacity="0.85" transform="rotate(240)"/>
+          <ellipse cx="0" cy="-17" rx="8" ry="11" fill="#fbc9d8" opacity="0.85" transform="rotate(300)"/>
+          <ellipse rx="11" ry="9" fill="#f48fb1"/>
+          <circle r="5" fill="#e8637a"/>
+          <circle r="2.5" fill="#d4a843"/>
+        </g>
+
+        <!-- Small rose top left -->
+        <g transform="translate(108,195)">
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#f9a8bf" opacity="0.9" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#f9a8bf" opacity="0.9" transform="rotate(72)"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#f48fb1" opacity="0.9" transform="rotate(144)"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#f48fb1" opacity="0.9" transform="rotate(216)"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#f9a8bf" opacity="0.9" transform="rotate(288)"/>
+          <ellipse rx="8" ry="6" fill="#f48fb1"/>
+          <circle r="3.5" fill="#e8637a"/>
+          <circle r="1.5" fill="#d4a843"/>
+        </g>
+
+        <!-- Small rose top right -->
+        <g transform="translate(272,200)">
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#e8637a" opacity="0.85" transform="rotate(0)"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#e8637a" opacity="0.85" transform="rotate(72)"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#c0395a" opacity="0.85" transform="rotate(144)"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#c0395a" opacity="0.85" transform="rotate(216)"/>
+          <ellipse cx="0" cy="-13" rx="6" ry="9" fill="#e8637a" opacity="0.85" transform="rotate(288)"/>
+          <ellipse rx="8" ry="6" fill="#c0395a"/>
+          <circle r="3.5" fill="#9c2545"/>
+          <circle r="1.5" fill="#d4a843"/>
+        </g>
+
+        <!-- Tulip left -->
+        <g transform="translate(162,200)">
+          <ellipse cx="-6" cy="-15" rx="8" ry="16" fill="#f9a8bf" transform="rotate(-10)"/>
+          <ellipse cx="0" cy="-18" rx="7" ry="16" fill="#f48fb1"/>
+          <ellipse cx="6" cy="-15" rx="8" ry="16" fill="#fbc9d8" transform="rotate(10)"/>
+        </g>
+
+        <!-- Tulip right -->
+        <g transform="translate(218,202)">
+          <ellipse cx="-5" cy="-15" rx="7" ry="15" fill="#e8637a" transform="rotate(-8)"/>
+          <ellipse cx="0" cy="-17" rx="6" ry="15" fill="#c0395a"/>
+          <ellipse cx="5" cy="-15" rx="7" ry="15" fill="#e8637a" transform="rotate(8)"/>
+        </g>
+
+        <!-- Sparkle dots -->
+        <circle cx="155" cy="148" r="2.5" fill="#d4a843" opacity="0.8"/>
+        <circle cx="228" cy="145" r="2" fill="#d4a843" opacity="0.7"/>
+        <circle cx="192" cy="128" r="3" fill="#ffd700" opacity="0.6"/>
+        <circle cx="170" cy="135" r="1.8" fill="#d4a843" opacity="0.9"/>
+        <circle cx="210" cy="133" r="1.8" fill="#d4a843" opacity="0.9"/>
+      </svg>
+
+      <!-- Petal burst container -->
+      <div class="petal-burst" id="petalBurst" style="top:30%;left:50%;"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:-0.5rem; margin-bottom:0.5rem;">
+    <span style="font-family:'Lora',serif; font-style:italic; color:var(--rose); font-size:0.9rem; opacity:0.7;"><h2>This bouquet is for you! Click the flowers!</h2></span>
+  </div>
+
+  <!-- NOTES -->
+  <div class="notes-section">
+    <div class="notes-title">These cards is for you! 💌</div>
+
+    <div class="note-card" data-delay="0">
+      <!-- <span class="note-number">1</span> -->
+      <!-- <span class="note-emoji">🎓</span> -->
+      <p class="note-text">Congratulations Langga! You did great throughout your journey! Always here supporting you! <strong>Mwaaaps.</strong></p>
+      <span class="note-decoration">🌸</span>
+    </div>
+
+    <div class="note-card" data-delay="100">
+      <!-- <span class="note-number">2</span> -->
+      <!-- <span class="note-emoji">💪</span> -->
+      <p class="note-text">Continue the hardwork and make everyone proud of you!</p>
+      <span class="note-decoration">✨</span>
+    </div>
+
+    <div class="note-card" data-delay="200">
+      <!-- <span class="note-number">3</span> -->
+      <!-- <span class="note-emoji">🌟</span> -->
+      <p class="note-text">You have the capabilities Langga. I know that you, <em>we</em>, can overcome the challenges in life!</p>
+      <span class="note-decoration">💫</span>
+    </div>
+
+    <div class="note-card" data-delay="300">
+      <!-- <span class="note-number">4</span> -->
+      <!-- <span class="note-emoji">🤍</span> -->
+      <p class="note-text">Do not lose hope if everything feels heavy. You have me, <strong>always here by your side!</strong></p>
+      <span class="note-decoration">🌷</span>
+    </div>
+
+    <div class="note-card" data-delay="400">
+      <!-- <span class="note-number">5</span> -->
+      <!-- <span class="note-emoji">🌈</span> -->
+      <p class="note-text">Hoping that we reach our goals and dreams in life. Goodluck to our next journey <strong>Luuuv</strong>. <em>I Love You Somats.</em> <strong>MwaMwaMwa</strong> 💋</p>
+      <span class="note-decoration">💝</span>
+    </div>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <span class="closing-heart">💖</span>
+    <div class="closing-text">I Love Youuu 🌸</div>
+    <!-- <div class="closing-sub">— Always & forever, para sa'yo lang —</div> -->
+  </div>
+</div>
+
+<script>
+// ===== SPLASH PETALS =====
+const petalEmojis = ['🌸','🌺','🌼','💮','🏵️','🌷'];
+const splashPetals = document.getElementById('splashPetals');
+for(let i=0;i<18;i++){
+  const p = document.createElement('div');
+  p.className='splash-petal';
+  p.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+  p.style.left = Math.random()*100+'%';
+  p.style.animationDuration = (4+Math.random()*5)+'s';
+  p.style.animationDelay = (Math.random()*5)+'s';
+  p.style.fontSize = (1+Math.random()*1.5)+'rem';
+  splashPetals.appendChild(p);
+}
+
+// ===== BG FLOATERS =====
+const bgF = document.getElementById('bgFloaters');
+const floatEmojis = ['🌸','💕','✨','🌺','💖','🌷','⭐'];
+for(let i=0;i<12;i++){
+  const f = document.createElement('div');
+  f.className='bg-float';
+  f.textContent=floatEmojis[Math.floor(Math.random()*floatEmojis.length)];
+  f.style.left=Math.random()*100+'%';
+  f.style.animationDuration=(15+Math.random()*20)+'s';
+  f.style.animationDelay=(Math.random()*15)+'s';
+  f.style.fontSize=(1+Math.random())+'rem';
+  bgF.appendChild(f);
+}
+
+// ===== SPLASH OPEN =====
+const splash = document.getElementById('splash');
+const main = document.getElementById('main');
+
+splash.addEventListener('click',()=>{
+  splash.classList.add('fade-out');
+  setTimeout(()=>{
+    splash.style.display='none';
+    main.style.display='block';
+    setTimeout(()=>{
+      main.style.opacity='1';
+      initScrollReveal();
+    },50);
+  },800);
+});
+
+// ===== SCROLL REVEAL CARDS =====
+function initScrollReveal(){
+  const cards = document.querySelectorAll('.note-card');
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const delay = parseInt(e.target.dataset.delay)||0;
+        setTimeout(()=>e.target.classList.add('visible'), delay);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:0.15});
+  cards.forEach(c=>obs.observe(c));
+}
+
+// ===== BOUQUET CLICK: burst petals =====
+const bouquet = document.getElementById('bouquetWrap');
+const burstContainer = document.getElementById('petalBurst');
+const burstEmojis=['🌸','🌺','💕','✨','🌷','💖','🌼'];
+
+bouquet.addEventListener('click',()=>{
+  burstContainer.innerHTML='';
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div');
+    p.className='float-petal';
+    p.textContent=burstEmojis[Math.floor(Math.random()*burstEmojis.length)];
+    const angle=Math.random()*360;
+    const dist=60+Math.random()*80;
+    const dx=Math.cos(angle*Math.PI/180)*dist+'px';
+    const dy=(-dist-Math.random()*60)+'px';
+    p.style.cssText=`--dx:${dx};--dy:${dy};left:0;top:0;animation-delay:${Math.random()*0.3}s;animation-duration:${1.5+Math.random()}s;font-size:${0.9+Math.random()*0.8}rem;`;
+    burstContainer.appendChild(p);
+  }
+});
+
+// ===== HEART POP ON NOTE CLICK =====
+document.querySelectorAll('.note-card').forEach(card=>{
+  card.addEventListener('click',(e)=>{
+    const hearts=['💖','💕','💗','💓','💘','🌸'];
+    const h=document.createElement('div');
+    h.className='heart-pop';
+    h.textContent=hearts[Math.floor(Math.random()*hearts.length)];
+    h.style.left=e.clientX+'px';
+    h.style.top=e.clientY+'px';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),1000);
+  });
+});
+
+// ===== SPARKLE CURSOR =====
+const sparkleEmojis=['✨','💫','⭐','🌟','💕'];
+let lastSparkle=0;
+document.addEventListener('mousemove',(e)=>{
+  const now=Date.now();
+  if(now-lastSparkle<120) return;
+  lastSparkle=now;
+  if(Math.random()>0.4) return;
+  const s=document.createElement('div');
+  s.className='sparkle';
+  s.textContent=sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
+  s.style.left=e.clientX+'px';
+  s.style.top=e.clientY+'px';
+  s.style.fontSize=(0.7+Math.random()*0.6)+'rem';
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),800);
+});
+
+// Touch sparkle for mobile
+document.addEventListener('touchmove',(e)=>{
+  const t=e.touches[0];
+  const now=Date.now();
+  if(now-lastSparkle<200) return;
+  lastSparkle=now;
+  const s=document.createElement('div');
+  s.className='sparkle';
+  s.textContent=sparkleEmojis[Math.floor(Math.random()*sparkleEmojis.length)];
+  s.style.left=t.clientX+'px';
+  s.style.top=t.clientY+'px';
+  document.body.appendChild(s);
+  setTimeout(()=>s.remove(),800);
+},{passive:true});
+</script>
+</body>
+</html>
